@@ -20,8 +20,8 @@ public class PfaccountController {
     }
 
     @PutMapping("/contribute")
-    public Boolean UpdatePfcontributionByMonth(@RequestBody PfAccount pfAccount,@RequestBody MonthlyContribution monthlyContribution){
-        return pfaccountService.UpdatePfcontributionByMonth(pfAccount,monthlyContribution);
+    public Boolean UpdatePfcontributionByMonth(@RequestBody PfAccount pfAccount){
+        return pfaccountService.UpdatePfcontributionByMonth(pfAccount);
     }
 
     @GetMapping("/balance/{id}")

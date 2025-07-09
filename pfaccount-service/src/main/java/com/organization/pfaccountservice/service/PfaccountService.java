@@ -22,15 +22,19 @@ public class PfaccountService {
         return pfaccountRepository.save(pfAccount);
     }
 
-    public Boolean UpdatePfcontributionByMonth(PfAccount pfAccount,MonthlyContribution monthlyContribution){
+    public Boolean UpdatePfcontributionByMonth(PfAccount pfAccount){
+        for (MonthlyContribution mc : pfAccount.getMonthlyContributions()) {
+            mc.setPfaccount(pfAccount); // 🔁 Set owning side
+        }
         Optional<PfAccount> pfAccountObj = Optional.of(pfaccountRepository.save(pfAccount));
         if(pfAccountObj.isPresent())
         {
-            Optional<MonthlyContribution> monthlyContributionObj = Optional.of(monthlyContributionRepository.save(monthlyContribution));
+            return true;
+            /* Optional<MonthlyContribution> monthlyContributionObj = Optional.of(monthlyContributionRepository.save(monthlyContribution));
             if(monthlyContributionObj.isPresent())
             {
                 return true;
-            }
+            } */
         }
 
         return false;

@@ -1,9 +1,12 @@
 package com.organization.pfaccountservice.entity;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -18,9 +21,10 @@ public class MonthlyContribution {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "employee_id") // Foreign key column
-    private PfAccount pfAccount;
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name="pfaccount_id") // Foreign key column
+    @JsonBackReference
+    private PfAccount pfaccount;
     private BigDecimal employeeContribution;
     private BigDecimal employerContribution;
     private BigDecimal totalContribution;
