@@ -1,8 +1,10 @@
 package com.organization.pfaccountservice.service;
+import com.organization.pfaccountservice.config.RabbitMQConfig;
 import com.organization.pfaccountservice.repository.PfaccountRepository;
 import com.organization.pfaccountservice.repository.MonthlyContributionRepository;
 import com.organization.pfaccountservice.entity.PfAccount;
 import com.organization.pfaccountservice.entity.MonthlyContribution;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,8 @@ public class PfaccountService {
     @Autowired
     private MonthlyContributionRepository monthlyContributionRepository;
 
+    @Autowired private RabbitTemplate rabbitTemplate;
+
     public PfAccount addPfaccount(PfAccount pfAccount){
 
         return pfaccountRepository.save(pfAccount);
@@ -29,6 +33,9 @@ public class PfaccountService {
         Optional<PfAccount> pfAccountObj = Optional.of(pfaccountRepository.save(pfAccount));
         if(pfAccountObj.isPresent())
         {
+            rabbitTemplate.convertAndSend(RabbitMQConfig.QUEUE,
+                    "Contribution received: " + pfAccountObj.get().getEmployeeId() + ", Amount: " + pfAccountObj.get().getPfBalance());
+
             return true;
             /* Optional<MonthlyContribution> monthlyContributionObj = Optional.of(monthlyContributionRepository.save(monthlyContribution));
             if(monthlyContributionObj.isPresent())
