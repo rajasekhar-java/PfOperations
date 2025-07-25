@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/pfaccount-service/pom.xml" />
         <option value="$PROJECT_DIR$/pfoffice-service/pom.xml" />
         <option value="$PROJECT_DIR$/notification-service/pom.xml" />
+        <option value="$PROJECT_DIR$/apigateway/pom.xml" />
       </list>
     </option>
   </component>
